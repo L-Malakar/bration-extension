@@ -1,0 +1,20 @@
+[package]
+name = "bration_extinction_core"
+version = "0.1.0"
+edition = "2021"
+description = "WASM wrapper around Brave's adblock-rust engine for Bration-Extinction"
+license = "MPL-2.0"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+adblock = "0.9"
+wasm-bindgen = "0.2"
+serde = { version = "1.0", features = ["derive"] }
+serde-wasm-bindgen = "0.6"
+console_error_panic_hook = "0.1"
+
+[profile.release]
+opt-level = "z"
+lto = true
