@@ -2,6 +2,8 @@
 // Thin WASM wrapper around Brave's adblock-rust, exposing simple functions
 // that a browser extension's JavaScript can call directly.
 
+use adblock::lists::{FilterSet, ParseOptions};
+use adblock::request::Request;
 use adblock::Engine;
 use wasm_bindgen::prelude::*;
 
@@ -21,7 +23,9 @@ impl AdblockEngine {
             .lines()
             .map(|line| line.to_string())
             .collect();
-        let engine = Engine::from_rules(&rules, Default::default());
+        let mut filter_set = FilterSet::new(false);
+        filter_set.add_filters(&rules, ParseOptions::default());
+        let engine = Engine::from_filter_set(filter_set, true);
         AdblockEngine { engine }
     }
 
@@ -32,8 +36,10 @@ impl AdblockEngine {
     /// Returns true if the request should be blocked.
     #[wasm_bindgen(js_name = shouldBlock)]
     pub fn should_block(&self, url: &str, source_url: &str, request_type: &str) -> bool {
-        let result = self.engine.check_network_urls(url, source_url, request_type);
-        result.matched
+        match Request::new(url, source_url, request_type) {
+            Ok(request) => self.engine.check_network_request(&request).matched,
+            Err(_) => false,
+        }
     }
 
     /// Reload the engine with a fresh filter list (for periodic filter list updates).
@@ -43,6 +49,8 @@ impl AdblockEngine {
             .lines()
             .map(|line| line.to_string())
             .collect();
-        self.engine = Engine::from_rules(&rules, Default::default());
+        let mut filter_set = FilterSet::new(false);
+        filter_set.add_filters(&rules, ParseOptions::default());
+        self.engine = Engine::from_filter_set(filter_set, true);
     }
 }
