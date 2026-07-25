@@ -2,7 +2,7 @@
 // Thin WASM wrapper around Brave's adblock-rust, exposing simple functions
 // that a browser extension's JavaScript can call directly.
 
-use adblock::engine::Engine;
+use adblock::Engine;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
