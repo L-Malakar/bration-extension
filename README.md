@@ -1,4 +1,4 @@
-# 🛑 Bration-Extinction
+# <img src="https://github.com/L-Malakar/bration-extinction/blob/main/image/icon-128.png" width="40" valign="middle"/> Bration-Extinction
 
 **Your Screen. Your Data. Everything Else — Blocked.**
 
