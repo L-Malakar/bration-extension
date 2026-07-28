@@ -2,7 +2,7 @@
 
 **Your Screen. Your Data. Everything Else — Blocked.**
 
-An open-source ad, tracker, and popup blocker for Firefox, powered by Brave's own [`adblock-rust`](https://github.com/brave/adblock-rust) engine, compiled to WebAssembly. No accounts. No telemetry. No data ever leaves your machine.
+An open-source ad, tracker, and popup blocker for browsers, powered by Brave's own [`adblock-rust`](https://github.com/brave/adblock-rust) engine, compiled to Web Assembly. No accounts. No telemetry. No data ever leaves your machine.
 
 [![Available on Firefox Add-ons](https://img.shields.io/badge/Firefox-Add--on-FF7139?logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/en-US/firefox/addon/bration-extinction/)
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-blue.svg)](https://opensource.org/licenses/MPL-2.0)
