@@ -8,7 +8,7 @@ An open-source ad, tracker, and popup blocker for Firefox, powered by Brave's ow
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-blue.svg)](https://opensource.org/licenses/MPL-2.0)
 
 ---
-
+[![Banner](https://github.com/L-Malakar/bration-extinction/blob/main/image/banner.png)](https://github.com/L-Malakar)
 ## ✨ Features
 
 - **Network-level blocking** — a stacked filter list (EasyList, EasyPrivacy, AdGuard Base, AdGuard Annoyances, plus dedicated scam/malvertising-redirect lists) checked against every request via a Rust engine compiled to WebAssembly
