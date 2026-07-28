@@ -54,7 +54,7 @@ This produces the same `wasm-core/` output bundled with the extension. The build
 
 ## 🐛 Reporting bugs
 
-Please open an issue on this repo — include your browser version and the site where you ran into a problem.
+Please open an [issue](https://github.com/L-Malakar/bration-extinction/issues/new) on this repo — include your browser version and the site where you ran into a problem.
 
 ## 🗺️ Roadmap
 
@@ -63,10 +63,6 @@ Please open an issue on this repo — include your browser version and the site 
 - [ ] Connected web dashboard (history across visits, remote controls)
 - [ ] Expanded YouTube-specific filtering
 
-## 📄 License
-
-Mozilla Public License 2.0 — consistent with the license of `adblock-rust`, the engine this project is built on.
-
 ---
 
-Developed independently by **L. Malakar**.
+Developed independently by [**L. Malakar**](https://github.com/L-Malakar).
