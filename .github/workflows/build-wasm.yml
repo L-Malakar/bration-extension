@@ -3,7 +3,7 @@ name: Build WASM Core
 on:
   push:
     paths:
-      - 'bration-extinction-core/**'
+      - 'bration-extension-core/**'
   workflow_dispatch: {}
 
 jobs:
@@ -20,11 +20,11 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Build WASM package
-        working-directory: ./bration-extinction-core
+        working-directory: ./bration-extension-core
         run: wasm-pack build --target web --release
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: bration-extinction-wasm
-          path: bration-extinction-core/pkg/
+          name: bration-extension-wasm
+          path: bration-extension-core/pkg/
