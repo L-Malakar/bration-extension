@@ -21,6 +21,7 @@ An open-source ad, tracker, and popup blocker for browsers, powered by Brave's o
 ## 🔒 Privacy
 
 Everything is stored locally via your browser's own storage. Nothing is sent to any external server, no account is required, and the extension's manifest explicitly declares **zero data collection**.
+<a href="https://l-malakar.github.io/bration-extension/">Privacy policy</a>
 
 ## 🧠 How it works
 
