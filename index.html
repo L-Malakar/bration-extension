@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — bration-extension</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+    line-height: 1.6;
+    color: #1a1a1a;
+  }
+  h1 { font-size: 28px; margin-bottom: 4px; }
+  .updated { color: #666; font-size: 14px; margin-bottom: 32px; }
+  h2 { font-size: 20px; margin-top: 36px; border-bottom: 1px solid #eee; padding-bottom: 6px; }
+  ul { padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  .highlight {
+    background: #f4f8f4;
+    border-left: 4px solid #2e7d32;
+    padding: 14px 18px;
+    margin: 24px 0;
+    border-radius: 4px;
+  }
+  code { background: #f2f2f2; padding: 2px 6px; border-radius: 3px; font-size: 90%; }
+  footer { margin-top: 60px; color: #888; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<h1>Privacy Policy</h1>
+<p class="updated">Extension: bration-extension &nbsp;•&nbsp; Last updated: August 1, 2026</p>
+
+<div class="highlight">
+  <strong>Summary:</strong> This extension blocks ads and trackers directly on your device.
+  It does not collect, store, sell, or transmit your personal data, browsing history,
+  or activity to any external server. All filtering and settings data stays on your
+  own computer.
+</div>
+
+<h2>1. What this extension does</h2>
+<p>
+  bration-extension blocks advertisements, trackers, and third-party requests as you browse,
+  and unwraps AMP redirect links to take you directly to the original page. It provides a
+  dashboard where you can view how many ads/trackers were blocked per site, manage custom
+  filter rules, and turn protection on or off for specific domains.
+</p>
+
+<h2>2. Information we do <em>not</em> collect</h2>
+<p>We do not collect, transmit, sell, or share any of the following:</p>
+<ul>
+  <li>Personally identifiable information (name, email, address, etc.)</li>
+  <li>Browsing history or the list of websites you visit</li>
+  <li>Authentication credentials, passwords, or account information</li>
+  <li>Financial or payment information</li>
+  <li>Health information</li>
+  <li>Personal communications (emails, chats, messages)</li>
+  <li>Location data</li>
+  <li>Keystrokes, clicks, or other user activity monitoring</li>
+</ul>
+
+<h2>3. What is stored, and where</h2>
+<p>
+  The extension uses the browser's local <code>storage</code> API to save your preferences
+  entirely on your own device. This includes:
+</p>
+<ul>
+  <li>Whether protection is enabled or disabled for specific websites</li>
+  <li>Your custom filter list rules, if you've added any</li>
+  <li>Local block-count statistics shown in the dashboard (e.g., "12 trackers blocked on this site")</li>
+</ul>
+<p>
+  None of this data leaves your device. It is never uploaded to us or to any third party,
+  and we have no servers that receive or store this information.
+</p>
+
+<h2>4. Permissions we use, and why</h2>
+<ul>
+  <li><strong>webNavigation</strong> — to detect page loads and unwrap AMP redirect URLs.</li>
+  <li><strong>tabs</strong> — to identify the active tab so per-site statistics and the dashboard can work correctly.</li>
+  <li><strong>storage</strong> — to save your settings and filter rules locally on your device.</li>
+  <li><strong>cookies</strong> — to read Global Privacy Control (GPC) signals and respect your opt-out preferences.</li>
+  <li><strong>privacy</strong> — to align blocking behavior with your existing browser privacy settings.</li>
+  <li><strong>alarms</strong> — to periodically refresh filter list rules on a schedule.</li>
+  <li><strong>webRequest / declarativeNetRequest / declarativeNetRequestFeedback</strong> — to identify and block requests to known ad and tracker domains, and to show accurate block counts.</li>
+  <li><strong>Host permissions (all sites)</strong> — ads and trackers can be served from any domain, so the extension needs to evaluate network requests across all websites you visit in order to block them.</li>
+</ul>
+
+<h2>5. Third parties</h2>
+<p>
+  We do not sell, rent, or transfer your data to any third party. We do not use your data
+  for advertising, profiling, credit, or lending purposes. The extension does not load or
+  execute remote code — all filtering logic ships inside the extension package itself.
+</p>
+
+<h2>6. Data retention and deletion</h2>
+<p>
+  Since all data is stored locally on your device, you can delete it at any time by removing
+  the extension from your browser or clearing its local storage. We retain nothing on our end
+  because nothing is sent to us.
+</p>
+
+<h2>7. Changes to this policy</h2>
+<p>
+  If this policy changes, the "last updated" date at the top of this page will be revised.
+  Continued use of the extension after changes take effect constitutes acceptance of the
+  updated policy.
+</p>
+
+<h2>8. Contact</h2>
+<p>
+  Questions about this privacy policy or the extension's data practices can be sent to:
+  <strong>gamedrelyn@gmail.com</strong>
+</p>
+
+<footer>
+  This privacy policy applies solely to the bration-extension browser extension and its
+  associated dashboard.
+</footer>
+
+</body>
+</html>
