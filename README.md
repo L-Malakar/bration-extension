@@ -6,6 +6,7 @@ An open-source ad, tracker, and popup blocker for browsers, powered by Brave's o
 
 [![Available on Firefox Add-ons](https://img.shields.io/badge/Firefox-Add--on-FF7139?logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/en-US/firefox/addon/bration-extension/)
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-blue.svg)](https://opensource.org/licenses/MPL-2.0)
+[![Privacy policy: L. Malakar](https://img.shields.io/badge/Privacy%20policy-L.%20Malakar-green.svg)](https://l-malakar.github.io/bration-extension/)
 
 ---
 [![Banner](https://github.com/L-Malakar/bration-extension/blob/main/image/banner.png)](https://github.com/L-Malakar)
