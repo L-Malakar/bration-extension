@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bration Extension — Your Screen. Your Data. Everything Else — Blocked.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1120;
+    --panel:#121A2C;
+    --panel-2:#0E1728;
+    --line:#22304A;
+    --line-soft:#1A2438;
+    --text:#E7ECF5;
+    --muted:#8091AD;
+    --muted-2:#5A6B8C;
+    --deny:#FF5C4D;
+    --deny-dim:#5A2A26;
+    --allow:#43D9A3;
+    --allow-dim:#1E3A32;
+    --amber:#FFC163;
+    --radius:10px;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --disp: 'Space Grotesk', var(--sans);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(67,217,163,0.07), transparent 60%),
+      radial-gradient(ellipse 900px 500px at 85% 0%, rgba(255,92,77,0.06), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+
+  ::selection{ background:var(--allow); color:#04140F; }
+
+  :focus-visible{
+    outline:2px solid var(--amber);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 24px; }
+
+  /* ---------- background grid ---------- */
+  .schema-grid{
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:64px 64px;
+    opacity:0.35;
+    mask-image:linear-gradient(to bottom, black, transparent 85%);
+  }
+
+  /* ---------- nav ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:20;
+    background:rgba(11,17,32,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 24px;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; font-family:var(--disp); font-weight:600; letter-spacing:0.01em; text-decoration:none; }
+  .brand img{ width:26px; height:26px; border-radius:6px; }
+  .nav-links{ display:flex; gap:28px; font-size:14px; color:var(--muted); }
+  .nav-links a{ text-decoration:none; }
+  .nav-links a:hover{ color:var(--text); }
+  @media (max-width:720px){ .nav-links{ display:none; } }
+
+  /* ---------- hero ---------- */
+  .hero{ padding:88px 0 40px; }
+  .eyebrow{
+    font-family:var(--mono); font-size:12.5px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--allow); display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:""; width:7px; height:7px; border-radius:50%; background:var(--allow);
+    box-shadow:0 0 0 4px var(--allow-dim);
+  }
+  h1{
+    font-family:var(--disp); font-weight:700;
+    font-size:clamp(34px, 5.4vw, 60px);
+    line-height:1.04; letter-spacing:-0.015em; margin:0 0 22px;
+    max-width:920px;
+  }
+  h1 .strike{ color:var(--deny); position:relative; }
+  .lede{
+    font-size:17px; color:var(--muted); max-width:600px; margin:0 0 34px;
+  }
+  .cta-row{ display:flex; flex-wrap:wrap; gap:12px; margin-bottom:14px; }
+  .btn{
+    font-family:var(--sans); font-weight:600; font-size:14.5px;
+    padding:12px 20px; border-radius:8px; text-decoration:none;
+    display:inline-flex; align-items:center; gap:9px; border:1px solid transparent;
+    transition:transform .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn-primary{ background:var(--allow); color:#04140F; }
+  .btn-primary:hover{ background:#5CE6B8; }
+  .btn-outline{ background:transparent; border-color:var(--line); color:var(--text); }
+  .btn-outline:hover{ border-color:var(--muted-2); }
+  .btn-disabled{ background:var(--panel); color:var(--muted-2); border-color:var(--line); cursor:not-allowed; }
+  .cta-note{ font-family:var(--mono); font-size:12px; color:var(--muted-2); }
+
+  .badges{ display:flex; gap:8px; flex-wrap:wrap; margin-top:26px; }
+  .badges img{ height:22px; border-radius:4px; }
+
+  /* ---------- gate visual ---------- */
+  .gate{
+    margin-top:56px;
+    border:1px solid var(--line);
+    border-radius:14px;
+    background:linear-gradient(180deg, var(--panel), var(--panel-2));
+    overflow:hidden;
+    position:relative;
+  }
+  .gate-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:12px 18px; border-bottom:1px solid var(--line);
+    font-family:var(--mono); font-size:12px; color:var(--muted);
+  }
+  .gate-head .dots{ display:flex; gap:6px; }
+  .gate-head .dots span{ width:8px; height:8px; border-radius:50%; background:var(--line); }
+  .gate-body{
+    display:grid; grid-template-columns:1fr auto 1fr;
+    align-items:stretch; min-height:220px;
+  }
+  @media (max-width:760px){ .gate-body{ grid-template-columns:1fr; min-height:auto; } }
+
+  .lane{ padding:20px; overflow:hidden; position:relative; }
+  .lane-label{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--muted-2); margin-bottom:14px;
+  }
+  .lane-in{ }
+  .chip-track{ display:flex; flex-direction:column; gap:8px; }
+  .chip{
+    font-family:var(--mono); font-size:12.5px;
+    padding:7px 10px; border-radius:6px;
+    background:rgba(255,92,77,0.08); border:1px solid var(--deny-dim); color:#FFB2A9;
+    white-space:nowrap; width:fit-content;
+    animation:driftIn 5.5s linear infinite;
+  }
+  .chip:nth-child(2){ animation-delay:-1.2s; }
+  .chip:nth-child(3){ animation-delay:-2.6s; }
+  .chip:nth-child(4){ animation-delay:-3.8s; }
+  @keyframes driftIn{
+    0%{ transform:translateX(-12px); opacity:0; }
+    12%{ opacity:1; }
+    85%{ opacity:1; }
+    100%{ transform:translateX(14px); opacity:0; }
+  }
+
+  .lane-gate{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:20px 26px; border-left:1px dashed var(--line); border-right:1px dashed var(--line);
+    background:var(--panel-2);
+  }
+  @media (max-width:760px){ .lane-gate{ border-left:none; border-right:none; border-top:1px dashed var(--line); border-bottom:1px dashed var(--line); flex-direction:row; gap:18px; } }
+  .gate-mark{
+    width:56px; height:56px; border-radius:50%;
+    border:2px solid var(--deny); display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-weight:600; font-size:11px; color:var(--deny);
+    letter-spacing:0.04em; text-align:center; margin-bottom:14px;
+    box-shadow:0 0 0 6px rgba(255,92,77,0.06);
+  }
+  .gate-count{ font-family:var(--disp); font-size:30px; font-weight:700; color:var(--text); }
+  .gate-count-label{ font-family:var(--mono); font-size:11px; color:var(--muted-2); margin-top:2px; text-transform:uppercase; letter-spacing:0.08em; }
+
+  .lane-out{ display:flex; flex-direction:column; }
+  .screen-card{
+    flex:1; border:1px solid var(--allow-dim); border-radius:8px;
+    background:rgba(67,217,163,0.05);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:20px; gap:6px;
+  }
+  .screen-card .glyph{ color:var(--allow); font-family:var(--mono); font-size:12px; letter-spacing:0.1em; }
+  .screen-card strong{ font-family:var(--disp); font-size:15px; }
+  .screen-card span{ font-size:12.5px; color:var(--muted); max-width:220px; }
+
+  @media (prefers-reduced-motion: reduce){
+    .chip{ animation:none; opacity:1; transform:none; }
+  }
+
+  /* ---------- sections shared ---------- */
+  section{ padding:78px 0; border-top:1px solid var(--line-soft); }
+  .section-head{ margin-bottom:38px; max-width:640px; }
+  .section-tag{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--amber); margin-bottom:10px;
+  }
+  h2{ font-family:var(--disp); font-size:clamp(24px,3.2vw,34px); margin:0 0 12px; letter-spacing:-0.01em; }
+  .section-desc{ color:var(--muted); font-size:15.5px; margin:0; }
+
+  /* ---------- features ---------- */
+  .feat-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  @media (max-width:900px){ .feat-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:600px){ .feat-grid{ grid-template-columns:1fr; } }
+  .feat{ background:var(--panel); padding:26px 24px; }
+  .feat-tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:0.1em; color:var(--muted-2); margin-bottom:14px; }
+  .feat h3{ font-family:var(--disp); font-size:17px; margin:0 0 8px; font-weight:600; }
+  .feat p{ font-size:14px; color:var(--muted); margin:0; }
+
+  /* ---------- pipeline ---------- */
+  .pipeline{
+    border:1px solid var(--line); border-radius:12px; background:var(--panel);
+    padding:36px 32px; font-family:var(--mono);
+  }
+  .pipe-root{ display:flex; align-items:center; gap:14px; margin-bottom:6px; }
+  .pipe-node{
+    border:1px solid var(--line); background:var(--panel-2); border-radius:7px;
+    padding:9px 14px; font-size:13px; white-space:nowrap;
+  }
+  .pipe-node.core{ border-color:var(--allow-dim); color:var(--allow); }
+  .pipe-arrow{ color:var(--muted-2); font-size:13px; }
+  .pipe-wasm{ margin:14px 0 22px; padding-left:0; }
+  .pipe-wasm .pipe-node{ display:inline-block; }
+  .pipe-branches{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:8px; }
+  @media (max-width:760px){ .pipe-branches{ grid-template-columns:1fr; } }
+  .branch{ border-top:1px solid var(--line); padding-top:16px; }
+  .branch-head{ font-size:12.5px; color:var(--text); margin-bottom:6px; }
+  .branch-sub{ font-size:12px; color:var(--muted-2); }
+
+  /* ---------- privacy ---------- */
+  .privacy-panel{
+    display:flex; gap:32px; align-items:center; justify-content:space-between;
+    border:1px solid var(--allow-dim); border-radius:12px;
+    background:linear-gradient(135deg, rgba(67,217,163,0.06), transparent 60%), var(--panel);
+    padding:34px 32px; flex-wrap:wrap;
+  }
+  .privacy-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  .privacy-list li{ display:flex; align-items:center; gap:10px; font-size:14.5px; color:var(--text); }
+  .privacy-list li::before{ content:"—"; color:var(--allow); font-weight:600; }
+  .privacy-cta{ text-align:right; }
+  .privacy-cta p{ color:var(--muted); font-size:13.5px; margin:0 0 12px; max-width:220px; }
+  @media (max-width:640px){ .privacy-panel{ flex-direction:column; align-items:flex-start; } .privacy-cta{ text-align:left; } }
+
+  /* ---------- install / build ---------- */
+  .install-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  @media (max-width:760px){ .install-grid{ grid-template-columns:1fr; } }
+  .install-card{ border:1px solid var(--line); border-radius:12px; background:var(--panel); padding:26px; }
+  .install-card h3{ font-family:var(--disp); font-size:16px; margin:0 0 14px; }
+  .store-row{ display:flex; flex-direction:column; gap:10px; }
+  .store-link{
+    display:flex; align-items:center; justify-content:space-between;
+    border:1px solid var(--line); border-radius:8px; padding:12px 14px;
+    text-decoration:none; font-size:14px; color:var(--text);
+  }
+  .store-link:hover{ border-color:var(--muted-2); }
+  .store-link .arrow{ color:var(--muted-2); font-family:var(--mono); }
+  .store-link.disabled{ color:var(--muted-2); cursor:default; }
+  .store-link.disabled:hover{ border-color:var(--line); }
+
+  .code-block{
+    background:#080D18; border:1px solid var(--line); border-radius:8px;
+    padding:16px 18px; font-family:var(--mono); font-size:12.8px; color:#B7C4DB;
+    overflow-x:auto; margin:0;
+  }
+  .code-block .comment{ color:var(--muted-2); }
+  .code-block .cmd{ color:var(--allow); }
+
+  /* ---------- roadmap / footer ---------- */
+  .roadmap-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  .roadmap-list li{ display:flex; align-items:center; gap:10px; font-size:14.5px; color:var(--muted); }
+  .roadmap-list li .box{ width:15px; height:15px; border:1.5px solid var(--line); border-radius:4px; flex:none; }
+
+  footer{ border-top:1px solid var(--line-soft); padding:50px 0 40px; }
+  .footer-grid{ display:flex; justify-content:space-between; gap:30px; flex-wrap:wrap; }
+  .footer-brand{ max-width:320px; }
+  .footer-brand .brand{ margin-bottom:10px; }
+  .footer-brand p{ color:var(--muted); font-size:13.5px; }
+  .footer-cols{ display:flex; gap:56px; flex-wrap:wrap; }
+  .footer-col h4{ font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted-2); margin:0 0 14px; }
+  .footer-col a{ display:block; font-size:14px; color:var(--muted); text-decoration:none; margin-bottom:10px; }
+  .footer-col a:hover{ color:var(--text); }
+  .footer-bottom{ margin-top:40px; padding-top:20px; border-top:1px solid var(--line-soft); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:12.5px; color:var(--muted-2); font-family:var(--mono); }
+</style>
+</head>
+<body>
+
+<div class="schema-grid" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <img src="https://raw.githubusercontent.com/L-Malakar/bration-extension/main/image/icon-128.png" alt="" onerror="this.style.display='none'">
+      Bration Extension
+    </a>
+    <nav class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#install">Install</a>
+      <a href="https://github.com/L-Malakar/bration-extension/issues/new">Report a bug</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div class="eyebrow">adblock-rust · compiled to WebAssembly</div>
+    <h1>Your screen. Your data.<br>Everything else <span class="strike">— blocked.</span></h1>
+    <p class="lede">An open-source ad, tracker, and popup blocker, powered by Brave's own adblock-rust engine running locally in WebAssembly. No accounts. No telemetry. No data ever leaves your machine.</p>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://addons.mozilla.org/en-US/firefox/addon/bration-extension/">Get it for Firefox</a>
+      <a class="btn btn-outline" href="https://microsoftedge.microsoft.com/addons/detail/brationextension/fpphlmhdkhdaiobfohfnchinepnklgme">Get it for Edge</a>
+      <span class="btn btn-disabled" aria-disabled="true">Chrome — coming soon</span>
+    </div>
+    <div class="cta-note">MPL 2.0 licensed · developed independently by L. Malakar</div>
+
+    <div class="badges">
+      <img src="https://img.shields.io/badge/Firefox-Add--on-FF7139?logo=firefoxbrowser&logoColor=white" alt="Firefox Add-on">
+      <img src="https://img.shields.io/badge/Microsoft_Edge-Add--on-0078D4?logo=microsoftedge&logoColor=white" alt="Edge Add-on">
+      <img src="https://img.shields.io/badge/License-MPL%202.0-black.svg" alt="MPL 2.0 license">
+    </div>
+
+    <div class="gate" role="img" aria-label="Diagram: tracker requests entering on the left are stopped at a filter gate, while your screen on the right stays clean">
+      <div class="gate-body">
+        <div class="lane lane-in">
+          <div class="lane-label">Requests in</div>
+          <div class="chip-track">
+            <div class="chip">doubleclick.net</div>
+            <div class="chip">googlesyndication.com</div>
+            <div class="chip">connect.facebook.net</div>
+            <div class="chip">scorecardresearch.com</div>
+          </div>
+        </div>
+        <div class="lane-gate">
+          <div class="gate-mark">FILTER<br>GATE</div>
+          <div class="gate-count-label">checked against every request</div>
+        </div>
+        <div class="lane lane-out">
+          <div class="lane-label">Your screen</div>
+          <div class="screen-card">
+            <div class="glyph">◎ CLEAN RENDER</div>
+            <strong>Nothing gets through</strong>
+            <span>Page content loads as normal — no ads, no popups, no trackers.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-tag">Features</div>
+        <h2>Blocking happens at every layer</h2>
+        <p class="section-desc">Not just the requests you can see — the ones that render as page content too.</p>
+      </div>
+      <div class="feat-grid">
+        <div class="feat">
+          <div class="feat-tag">NETWORK</div>
+          <h3>Network-level blocking</h3>
+          <p>A stacked filter list — EasyList, EasyPrivacy, AdGuard Base, AdGuard Annoyances, plus dedicated scam and malvertising-redirect lists — checked against every request by a Rust engine compiled to WebAssembly.</p>
+        </div>
+        <div class="feat">
+          <div class="feat-tag">COSMETIC</div>
+          <h3>Cosmetic filtering</h3>
+          <p>Hides ad containers and sponsored banners that load as page content, not just requests a network filter could catch.</p>
+        </div>
+        <div class="feat">
+          <div class="feat-tag">POPUP</div>
+          <h3>Popup blocking</h3>
+          <p>Automatically closes ad-triggered popup tabs before they get in your way.</p>
+        </div>
+        <div class="feat">
+          <div class="feat-tag">REDIRECT</div>
+          <h3>Forced-redirect protection</h3>
+          <p>Stops cross-site scripts from hijacking your navigation and dropping you on scam pages.</p>
+        </div>
+        <div class="feat">
+          <div class="feat-tag">PER-SITE</div>
+          <h3>Per-site control</h3>
+          <p>Turn blocking off for one specific site without affecting any other tab or domain.</p>
+        </div>
+        <div class="feat">
+          <div class="feat-tag">DASHBOARD</div>
+          <h3>Dashboard</h3>
+          <p>A WhatsApp-style view of every domain you've visited over the last 30 days, with a full breakdown of exactly what got blocked and where.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how-it-works">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-tag">How it works</div>
+        <h2>One Rust core, three jobs</h2>
+        <p class="section-desc">The engine compiles once to WebAssembly, then splits into three separate defenses inside the browser.</p>
+      </div>
+      <div class="pipeline">
+        <div class="pipe-root">
+          <div class="pipe-node core">adblock-rust (Rust)</div>
+          <span class="pipe-arrow">──▶ compiled to WebAssembly ──▶</span>
+        </div>
+        <div class="pipe-wasm">
+          <div class="pipe-node">bration_extinction_core_bg.wasm</div>
+        </div>
+        <div class="pipe-branches">
+          <div class="branch">
+            <div class="branch-head">├── Network blocking</div>
+            <div class="branch-sub">→ webRequest interception</div>
+          </div>
+          <div class="branch">
+            <div class="branch-head">├── Cosmetic filtering</div>
+            <div class="branch-sub">→ CSS injection via content script</div>
+          </div>
+          <div class="branch">
+            <div class="branch-head">└── Popup / redirect guard</div>
+            <div class="branch-sub">→ webNavigation heuristics</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="privacy">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-tag">Privacy</div>
+        <h2>Nothing leaves your machine</h2>
+        <p class="section-desc">The extension's manifest explicitly declares zero data collection — this isn't a policy promise, it's a technical one.</p>
+      </div>
+      <div class="privacy-panel">
+        <ul class="privacy-list">
+          <li>Everything is stored locally, in your browser's own storage</li>
+          <li>No account, sign-in, or sync required to use any feature</li>
+          <li>No external server ever receives your browsing data</li>
+        </ul>
+        <div class="privacy-cta">
+          <p>Read the full policy for the exact detail on what is (and isn't) collected.</p>
+          <a class="btn btn-outline" href="https://l-malakar.github.io/bration-extension/">Privacy policy</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-tag">Install &amp; build</div>
+        <h2>Get it installed, or build it yourself</h2>
+        <p class="section-desc">Grab it from a store, or compile the Rust core to WASM locally.</p>
+      </div>
+      <div class="install-grid">
+        <div class="install-card">
+          <h3>Browser stores</h3>
+          <div class="store-row">
+            <a class="store-link" href="https://addons.mozilla.org/en-US/firefox/addon/bration-extension/">Firefox — addons.mozilla.org <span class="arrow">→</span></a>
+            <a class="store-link" href="https://microsoftedge.microsoft.com/addons/detail/brationextension/fpphlmhdkhdaiobfohfnchinepnklgme">Edge — microsoftedge.microsoft.com <span class="arrow">→</span></a>
+            <span class="store-link disabled">Chrome — coming soon (Manifest V3) <span class="arrow">···</span></span>
+          </div>
+        </div>
+        <div class="install-card">
+          <h3>Build from source</h3>
+          <pre class="code-block"><span class="comment"># requires Rust + wasm-pack</span>
+<span class="cmd">cd</span> bration-extension-core
+<span class="cmd">wasm-pack build</span> --target web --release</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="#top">
+          <img src="https://raw.githubusercontent.com/L-Malakar/bration-extension/main/image/icon-128.png" alt="" onerror="this.style.display='none'">
+          Bration Extension
+        </a>
+        <p>Developed independently by L. Malakar. Local-only ad, tracker, and popup blocking, powered by adblock-rust in WebAssembly.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/L-Malakar/bration-extension">Source on GitHub</a>
+          <a href="https://github.com/L-Malakar/bration-extension/issues/new">Report a bug</a>
+          <a href="https://l-malakar.github.io/bration-extension/">Privacy policy</a>
+        </div>
+        <div class="footer-col">
+          <h4>Roadmap</h4>
+          <ul class="roadmap-list">
+            <li><span class="box"></span>Chrome support (Manifest V3)</li>
+            <li><span class="box"></span>Firefox for Android</li>
+            <li><span class="box"></span>Connected web dashboard</li>
+            <li><span class="box"></span>Expanded YouTube-specific filtering</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© L. Malakar — MPL 2.0</span>
+      <span>github.com/L-Malakar/bration-extension</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
