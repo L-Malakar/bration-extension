@@ -5,7 +5,8 @@
 An open-source ad, tracker, and popup blocker for browsers, powered by Brave's own [`adblock-rust`](https://github.com/brave/adblock-rust) engine, compiled to Web Assembly. No accounts. No telemetry. No data ever leaves your machine.
 
 [![Available on Firefox Add-ons](https://img.shields.io/badge/Firefox-Add--on-FF7139?logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/en-US/firefox/addon/bration-extension/)
-[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-blue.svg)](https://opensource.org/licenses/MPL-2.0)
+[![Available on Microsoft Edge Store](https://img.shields.io/badge/Microsoft_Edge-Add--on-0078D4?logo=microsoftedge&logoColor=white)](https://microsoftedge.microsoft.com/addons/detail/brationextension/fpphlmhdkhdaiobfohfnchinepnklgme)
+[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-black.svg)](https://opensource.org/licenses/MPL-2.0)
 [![Privacy policy: L. Malakar](https://img.shields.io/badge/Privacy%20policy-L.%20Malakar-green.svg)](https://l-malakar.github.io/bration-extension/)
 
 ---
@@ -52,7 +53,8 @@ This produces the same `wasm-core/` output bundled with the extension. The build
 ## 📦 Installing
 
 - **Firefox**: install from [addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/bration-extension/)
-- **Chrome / Edge**: coming soon
+- **Edge**: install from [microsoftedge.microsoft.com](https://microsoftedge.microsoft.com/addons/detail/brationextension/fpphlmhdkhdaiobfohfnchinepnklgme)
+- **Chrome**: coming soon
 
 ## 🐛 Reporting bugs
 
@@ -60,7 +62,7 @@ Please open an [issue](https://github.com/L-Malakar/bration-extension/issues/new
 
 ## 🗺️ Roadmap
 
-- [ ] Chrome / Edge support (Manifest V3)
+- [ ] Chrome support (Manifest V3)
 - [ ] Firefox for Android
 - [ ] Connected web dashboard (history across visits, remote controls)
 - [ ] Expanded YouTube-specific filtering
